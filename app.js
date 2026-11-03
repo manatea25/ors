@@ -3,9 +3,16 @@ const PHOTOS = {
   building2: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=82",
   building3: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=82",
   building4: "https://images.unsplash.com/photo-1524230572899-a752b3835840?auto=format&fit=crop&w=1200&q=82",
+  building5: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=1200&q=82",
+  building6: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=82",
   car1: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1000&q=82",
   car2: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=82",
   car3: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=82",
+  car4: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1000&q=82",
+  car5: "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1000&q=82",
+  car6: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1000&q=82",
+  car7: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1000&q=82",
+  car8: "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=82",
   people1: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=82",
   people2: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=82",
   people3: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=1000&q=82",
@@ -16,16 +23,24 @@ const objects = [
   { code: "X1", name: "Північний сектор", address: "Інститут здоров’я", coords: [50.4526, 30.5142], status: "Активний", photo: PHOTOS.building1, description: "Адміністративний комплекс. Контроль центрального входу, паркінгу та північного периметра." },
   { code: "B3", name: "Діловий квартал", address: "Бізнес-центр", coords: [50.4461, 30.5219], status: "Активний", photo: PHOTOS.building2, description: "Офісний об’єкт із двома контрольованими в’їздами та підземним паркінгом." },
   { code: "K7", name: "Західний контур", address: "Складський комплекс", coords: [50.4567, 30.4975], status: "Активний", photo: PHOTOS.building3, description: "Логістичний майданчик. Фіксуються всі автомобілі та відвідувачі." },
-  { code: "M4", name: "Центральний вузол", address: "Готельний комплекс", coords: [50.4397, 30.5086], status: "Активний", photo: PHOTOS.building4, description: "Об’єкт під цілодобовим спостереженням. Три входи та гостьова стоянка." }
+  { code: "M4", name: "Центральний вузол", address: "Готельний комплекс", coords: [50.4397, 30.5086], status: "Активний", photo: PHOTOS.building4, description: "Об’єкт під цілодобовим спостереженням. Три входи та гостьова стоянка." },
+  { code: "P8", name: "Східний сектор", address: "Офісний кампус", coords: [50.4488, 30.5368], status: "Активний", photo: PHOTOS.building5, description: "Сучасний офісний кампус. Контроль КПП, гостьового паркінгу та службового входу." },
+  { code: "D2", name: "Промисловий сектор", address: "Виробнича територія", coords: [50.4629, 30.5272], status: "Активний", photo: PHOTOS.building6, description: "Закрита виробнича територія з окремими в’їздами для персоналу та вантажного транспорту." }
 ];
 
 let events = [
-  { id: 1, object: "X1", type: "car", time: "14:36", date: "03.11.2026", title: "KA 2311 CE", desc: "Audi A6 · чорний · 2 особи", agent: "СОКІЛ-7", status: "pending", image: PHOTOS.car1, note: "Заїхав через центральний в’їзд.", arrival: "14:31", departure: "—" },
+  { id: 1, object: "X1", type: "car", time: "14:36", date: "03.11.2026", title: "KA 2311 CE", desc: "Audi A6 · чорний · 2 особи", agent: "СОКІЛ-7", status: "pending", image: PHOTOS.car1, gallery: [PHOTOS.car1, PHOTOS.car4, PHOTOS.car5, PHOTOS.car6], note: "Заїхав через центральний в’їзд.", arrival: "14:31", departure: "—" },
   { id: 2, object: "X1", type: "people", time: "13:58", date: "03.11.2026", title: "3 особи", desc: "Біля головного входу, розмовляють", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people1, note: "Поведінка спокійна." },
-  { id: 3, object: "X1", type: "car", time: "12:44", date: "03.11.2026", title: "AA 8420 KT", desc: "Toyota Camry · білий · 1 особа", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.car2, note: "Виїхав о 13:12.", arrival: "12:44", departure: "13:12" },
+  { id: 3, object: "X1", type: "car", time: "12:44", date: "03.11.2026", title: "AA 8420 KT", desc: "Toyota Camry · білий · 1 особа", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.car2, gallery: [PHOTOS.car2, PHOTOS.car5, PHOTOS.car3, PHOTOS.car7], note: "Виїхав о 13:12.", arrival: "12:44", departure: "13:12" },
   { id: 4, object: "B3", type: "people", time: "11:30", date: "03.11.2026", title: "10 осіб", desc: "Група біля бокового входу", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people2, note: "Зайшли всередину о 11:42." },
-  { id: 5, object: "K7", type: "car", time: "10:18", date: "03.11.2026", title: "AI 7714 OP", desc: "Volkswagen Transporter · сірий · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car3, note: "Розвантаження у західній зоні.", arrival: "10:18", departure: "11:06" },
-  { id: 6, object: "M4", type: "people", time: "09:42", date: "03.11.2026", title: "1 особа", desc: "Чоловік у темному пальті, очікує", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people3, note: "Залишив територію о 10:03." }
+  { id: 5, object: "K7", type: "car", time: "10:18", date: "03.11.2026", title: "AI 7714 OP", desc: "Volkswagen Transporter · сірий · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car3, gallery: [PHOTOS.car3, PHOTOS.car6, PHOTOS.car4, PHOTOS.car8], note: "Розвантаження у західній зоні.", arrival: "10:18", departure: "11:06" },
+  { id: 6, object: "M4", type: "people", time: "09:42", date: "03.11.2026", title: "1 особа", desc: "Чоловік у темному пальті, очікує", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people3, note: "Залишив територію о 10:03." },
+  { id: 7, object: "B3", type: "car", time: "14:12", date: "03.11.2026", title: "KA 9084 IP", desc: "Mercedes-Benz E-Class · сірий · 1 особа", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car4, gallery: [PHOTOS.car4, PHOTOS.car1, PHOTOS.car7, PHOTOS.car5], note: "Зупинився на гостьовій стоянці.", arrival: "14:12", departure: "14:48" },
+  { id: 8, object: "B3", type: "car", time: "13:47", date: "03.11.2026", title: "CE 4402 BX", desc: "BMW X5 · синій · 3 особи", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car5, gallery: [PHOTOS.car5, PHOTOS.car8, PHOTOS.car2, PHOTOS.car4], note: "Водій показав перепустку.", arrival: "13:47", departure: "—" },
+  { id: 9, object: "P8", type: "car", time: "15:04", date: "03.11.2026", title: "AC 1936 HM", desc: "Renault Megane · білий · 2 особи", agent: "СОКІЛ-7", status: "pending", image: PHOTOS.car6, gallery: [PHOTOS.car6, PHOTOS.car2, PHOTOS.car5, PHOTOS.car7], note: "Очікує перед службовим входом.", arrival: "15:04", departure: "—" },
+  { id: 10, object: "P8", type: "people", time: "14:51", date: "03.11.2026", title: "4 особи", desc: "Вийшли з офісного корпусу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people1, note: "Пройшли у напрямку паркінгу." },
+  { id: 11, object: "D2", type: "car", time: "13:22", date: "03.11.2026", title: "BK 7051 IA", desc: "Ford Transit · білий · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car7, gallery: [PHOTOS.car7, PHOTOS.car3, PHOTOS.car6, PHOTOS.car1], note: "Вантажний транспорт, в’їзд за накладною.", arrival: "13:22", departure: "14:05" },
+  { id: 12, object: "D2", type: "car", time: "11:16", date: "03.11.2026", title: "AX 3810 EP", desc: "Skoda Octavia · чорний · 1 особа", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car8, gallery: [PHOTOS.car8, PHOTOS.car4, PHOTOS.car5, PHOTOS.car2], note: "Автомобіль співробітника.", arrival: "11:16", departure: "—" }
 ];
 
 let agents = [
@@ -202,7 +217,7 @@ function renderMap() {
       ${admin ? `<div class="heading-actions"><button class="btn" onclick="openGuestAccess()">${icon("key-round")} Вхід для гостя</button><button class="btn primary" onclick="openCreateAgent()">${icon("user-plus")} Створити агента</button></div>` : ""}
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-label">Об’єкти</div><div class="stat-value">04</div><div class="stat-note good">Усі на зв’язку</div></div>
+      <div class="stat"><div class="stat-label">Об’єкти</div><div class="stat-value">${objects.length.toString().padStart(2,"0")}</div><div class="stat-note good">Усі на зв’язку</div></div>
       <div class="stat"><div class="stat-label">Події сьогодні</div><div class="stat-value">${events.length.toString().padStart(2,"0")}</div><div class="stat-note">+4 за останню годину</div></div>
       <div class="stat"><div class="stat-label">Агенти на зміні</div><div class="stat-value">02</div><div class="stat-note good">Із 4 активних</div></div>
       <div class="stat"><div class="stat-label">На перевірці</div><div class="stat-value warn">${events.filter(e => e.status === "pending").length.toString().padStart(2,"0")}</div><div class="stat-note">Потребує уваги</div></div>
@@ -210,7 +225,7 @@ function renderMap() {
     <div class="map-layout">
       <div id="map"></div>
       <aside class="map-side">
-        <div class="map-side-head"><div class="map-side-title"><strong>ОБ’ЄКТИ</strong><span class="event-count">4 активні</span></div></div>
+        <div class="map-side-head"><div class="map-side-title"><strong>ОБ’ЄКТИ</strong><span class="event-count">${objects.length} активні</span></div></div>
         <div class="map-list">${objects.map(o => objectRow(o)).join("")}</div>
         <div class="map-footer">${admin ? "Натисніть на порожню ділянку карти, щоб створити новий об’єкт." : "Гостьовий режим. Дані доступні лише для перегляду."}</div>
       </aside>
@@ -285,8 +300,9 @@ function renderObject() {
 function eventCard(e) {
   return `<article class="card event-card" onclick="openEvent(${e.id})">
     <div class="event-image"><img src="${e.image}" alt="${e.title}"><span class="event-type">${e.type === "car" ? "АВТО" : "ЛЮДИ"}</span></div>
-    <div class="event-body"><div class="event-head"><div><h3>${e.title}</h3><div class="event-desc">${e.desc}</div></div><time>${e.time}</time></div>
-    <div class="event-meta"><span>${e.agent}</span><span>${e.object}</span><span class="verification ${e.status === "verified" ? "ok" : "pending"}">${e.status === "verified" ? "ПІДТВЕРДЖЕНО" : "ОЧІКУЄ ПЕРЕВІРКИ"}</span></div></div>
+    <div class="event-body"><div class="event-head"><div><h3>${e.title}</h3><div class="event-desc">${e.desc}</div></div><time>${e.date}<br>${e.time}</time></div>
+    <div class="event-meta"><span>${icon("user-round",12)} ${e.agent}</span><span>${icon("map-pin",12)} ${e.object}</span><span>${icon("clock-3",12)} ${e.time}</span></div>
+    <div style="margin-top:10px"><span class="verification ${e.status === "verified" ? "ok" : "pending"}">${e.status === "verified" ? "ПІДТВЕРДЖЕНО" : "ОЧІКУЄ ПЕРЕВІРКИ"}</span></div></div>
   </article>`;
 }
 
@@ -295,6 +311,8 @@ function setEventTab(tab) { state.eventTab = tab; render(); }
 function openEvent(id) {
   const e = events.find(x => x.id === id);
   const canVerify = state.role === "admin" && e.status === "pending";
+  const gallery = e.gallery || [e.image];
+  const labels = ["Спереду", "Ззаду", "Збоку", "Інше"];
   showModal(`
     <div class="modal-head"><h3>${e.type === "car" ? "КАРТКА АВТО" : "КАРТКА ПОДІЇ"} · ${e.object}</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div>
     <img class="modal-photo" src="${e.image}" alt="${e.title}">
@@ -302,9 +320,12 @@ function openEvent(id) {
       ${canVerify ? `<div class="verify-box">${icon("clock",14)} Подія надійшла від агента ${e.agent} і очікує перевірки адміністратора.</div>` : ""}
       <div class="event-head"><div><div class="eyebrow">${e.type === "car" ? "АВТОМОБІЛЬ" : "ЛЮДИ"}</div><h2 class="mono" style="margin:7px 0">${e.title}</h2></div><time>${e.date}<br>${e.time}</time></div>
       <p style="color:var(--muted);font-size:13px">${e.desc}</p>
-      <div class="object-details"><div><div class="detail-label">Агент</div><div class="detail-value mono">${e.agent}</div></div><div><div class="detail-label">Прибуття</div><div class="detail-value mono">${e.arrival || e.time}</div></div><div><div class="detail-label">Вибуття</div><div class="detail-value mono">${e.departure || "—"}</div></div></div>
+      <div class="object-details"><div><div class="detail-label">Додав агент</div><div class="detail-value mono">${e.agent}</div></div><div><div class="detail-label">Дата і час запису</div><div class="detail-value mono">${e.date} · ${e.time}</div></div><div><div class="detail-label">Об’єкт</div><div class="detail-value mono">${e.object}</div></div></div>
+      ${e.type === "car" ? `<div class="object-details"><div><div class="detail-label">Прибуття</div><div class="detail-value mono">${e.arrival || e.time}</div></div><div><div class="detail-label">Вибуття</div><div class="detail-value mono">${e.departure || "—"}</div></div></div>` : ""}
       <div class="form-section">ПРИМІТКА</div><p style="font-size:12px;color:var(--muted)">${e.note}</p>
-      <div class="form-section">МАТЕРІАЛИ</div><div class="media-slots"><div class="media-slot" onclick="previewImage('${e.image}')">${icon("maximize")}<span>Основне фото</span></div><div class="media-slot">${icon("image")}<span>Вигляд збоку</span></div><div class="media-slot">${icon("video")}<span>Відео · 00:18</span></div><div class="media-slot">${icon("audio-lines")}<span>Аудіо · 00:32</span></div></div>
+      <div class="form-section">ФОТОМАТЕРІАЛИ</div>
+      <div class="evidence-grid">${gallery.map((src, index) => `<button class="evidence" onclick="previewImage('${src}')"><img src="${src}" alt="${labels[index] || "Фото"}"><span>${e.type === "car" ? labels[index] : `Фото ${index + 1}`}</span></button>`).join("")}</div>
+      <div class="form-section">ВІДЕО ТА АУДІО</div><div class="media-slots compact"><button class="media-slot">${icon("play-circle")}<span>Відео · 00:18</span></button><button class="media-slot">${icon("audio-lines")}<span>Аудіо · 00:32</span></button></div>
     </div>
     <div class="modal-foot">
       ${state.role === "admin" ? `<button class="btn danger" onclick="deleteEvent(${e.id})">${icon("trash-2")} Видалити</button><button class="btn">${icon("pencil")} Редагувати</button>` : ""}
@@ -331,21 +352,26 @@ function openEventForm(type) {
         <div class="input-row"><div class="field"><label>${car ? "Колір" : "Час"}</label><input class="input" value="${car ? "" : "15:20"}" placeholder="${car ? "Чорний" : ""}"></div><div class="field"><label>${car ? "Кількість людей" : "Зона спостереження"}</label><input class="input" placeholder="${car ? "1" : "Головний вхід"}"></div></div>
         ${car ? `<div class="input-row"><div class="field"><label>Час заїзду</label><input class="input" type="time" value="15:20"></div><div class="field"><label>Час виїзду</label><input class="input" type="time"></div></div>` : ""}
         <div class="field"><label>Додаткова інформація</label><textarea id="event-note" class="textarea" placeholder="Важливі деталі та спостереження"></textarea></div>
-        <div class="form-section">ФОТО ТА МАТЕРІАЛИ</div>
-        <div class="media-slots">${car ? mediaSlot("Вигляд спереду") + mediaSlot("Вигляд ззаду") + mediaSlot("Вигляд збоку") + mediaSlot("Інше") : mediaSlot("Фото") + mediaSlot("Додаткове фото")} ${mediaSlot("Відео","video")} ${mediaSlot("Аудіо","audio-lines")}</div>
+        <div class="form-section">ФОТО · ОБЕРІТЬ РАКУРС І ДЖЕРЕЛО</div>
+        <div class="capture-grid">${car ? captureGroup("Спереду") + captureGroup("Ззаду") + captureGroup("Збоку") + captureGroup("Інше") : captureGroup("Основне фото") + captureGroup("Додаткове фото")}</div>
+        <div class="form-section">ДОДАТКОВІ МАТЕРІАЛИ</div>
+        <div class="media-slots compact">${mediaSlot("Додати відео","video","video/*")} ${mediaSlot("Додати аудіо","audio-lines","audio/*")} ${mediaSlot("Інший файл","paperclip","image/*,video/*,audio/*")}</div>
       </div>
       <div class="modal-foot"><button type="button" class="btn ghost" onclick="closeModal()">Скасувати</button><button type="submit" class="btn primary">${icon("save")} Зберегти подію</button></div>
     </form>`, "wide");
 }
 
-function mediaSlot(label, ico="camera") { return `<label class="media-slot">${icon(ico)}<span>${label}</span><input type="file" accept="image/*,video/*,audio/*" hidden onchange="filePicked(this)"></label>`; }
+function captureGroup(label) {
+  return `<div class="capture-group"><strong>${label}</strong><div><label class="capture-action">${icon("camera",15)} <span>Камера</span><input type="file" accept="image/*" capture="environment" hidden onchange="filePicked(this)"></label><label class="capture-action">${icon("folder-open",15)} <span>Файли</span><input type="file" accept="image/*" hidden onchange="filePicked(this)"></label></div></div>`;
+}
+function mediaSlot(label, ico="camera", accept="image/*") { return `<label class="media-slot">${icon(ico)}<span>${label}</span><input type="file" accept="${accept}" hidden onchange="filePicked(this)"></label>`; }
 function filePicked(input) { input.parentElement.style.borderStyle = "solid"; input.parentElement.style.color = "var(--accent)"; input.parentElement.querySelector("span").textContent = "Матеріал додано"; }
 
 function saveEvent(ev, type) {
   ev.preventDefault();
   const titleInput = document.querySelector("#event-title").value;
   const desc = document.querySelector("#event-desc").value || (type === "car" ? "Автомобіль · дані уточнюються" : "Спостереження за групою людей");
-  events.unshift({ id: Date.now(), object: state.objectCode, type, time: "15:20", date: "03.11.2026", title: type === "people" ? `${titleInput} осіб` : titleInput.toUpperCase(), desc, agent: state.role === "agent" ? "СОКІЛ-7" : "АДМІН", status: state.role === "admin" ? "verified" : "pending", image: type === "car" ? PHOTOS.car1 : PHOTOS.people1, note: document.querySelector("#event-note").value || "Без додаткової примітки.", arrival: "15:20", departure: "—" });
+  events.unshift({ id: Date.now(), object: state.objectCode, type, time: "15:20", date: "03.11.2026", title: type === "people" ? `${titleInput} осіб` : titleInput.toUpperCase(), desc, agent: state.role === "agent" ? "СОКІЛ-7" : "АДМІН", status: state.role === "admin" ? "verified" : "pending", image: type === "car" ? PHOTOS.car1 : PHOTOS.people1, gallery: type === "car" ? [PHOTOS.car1, PHOTOS.car4, PHOTOS.car5, PHOTOS.car6] : [PHOTOS.people1], note: document.querySelector("#event-note").value || "Без додаткової примітки.", arrival: "15:20", departure: "—" });
   if (state.role === "agent") state.newNotifications++;
   closeModal(); render(); toast(state.role === "agent" ? "Подію збережено та надіслано адміністратору" : "Подію збережено");
 }
