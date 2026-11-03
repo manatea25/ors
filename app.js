@@ -43,6 +43,21 @@ let events = [
   { id: 12, object: "D2", type: "car", time: "11:16", date: "03.11.2026", title: "AX 3810 EP", desc: "Skoda Octavia · чорний · 1 особа", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car8, gallery: [PHOTOS.car8, PHOTOS.car4, PHOTOS.car5, PHOTOS.car2], note: "Автомобіль співробітника.", arrival: "11:16", departure: "—" }
 ];
 
+events.push(
+  { id: 13, object: "X1", type: "people", time: "12:08", date: "03.11.2026", title: "2 особи", desc: "Розмовляють біля паркінгу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people2, note: "Залишили територію через 7 хвилин." },
+  { id: 14, object: "B3", type: "people", time: "10:54", date: "03.11.2026", title: "2 особи", desc: "Очікують біля рецепції", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people3, note: "Відвідувачі офісного центру." },
+  { id: 15, object: "K7", type: "car", time: "14:02", date: "03.11.2026", title: "KA 6205 AM", desc: "Nissan Qashqai · сірий · 1 особа", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car4, gallery: [PHOTOS.car4, PHOTOS.car1, PHOTOS.car6, PHOTOS.car8], note: "Заїзд через західне КПП.", arrival: "14:02", departure: "—" },
+  { id: 16, object: "K7", type: "people", time: "13:38", date: "03.11.2026", title: "3 особи", desc: "Працівники біля зони розвантаження", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people1, note: "Проводять огляд вантажу." },
+  { id: 17, object: "K7", type: "people", time: "11:24", date: "03.11.2026", title: "1 особа", desc: "Чоловік біля службового входу", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people3, note: "Пред’явив перепустку." },
+  { id: 18, object: "M4", type: "car", time: "14:45", date: "03.11.2026", title: "AA 1048 PI", desc: "Lexus RX · чорний · 2 особи", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car5, gallery: [PHOTOS.car5, PHOTOS.car8, PHOTOS.car2, PHOTOS.car4], note: "Гостьова стоянка.", arrival: "14:45", departure: "—" },
+  { id: 19, object: "M4", type: "car", time: "12:19", date: "03.11.2026", title: "BI 7750 CA", desc: "Hyundai Tucson · білий · 1 особа", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car2, gallery: [PHOTOS.car2, PHOTOS.car6, PHOTOS.car3, PHOTOS.car7], note: "Зупинка біля центрального входу.", arrival: "12:19", departure: "12:34" },
+  { id: 20, object: "M4", type: "people", time: "11:07", date: "03.11.2026", title: "4 особи", desc: "Група біля гостьового входу", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people2, note: "Зайшли до будівлі." },
+  { id: 21, object: "P8", type: "car", time: "12:52", date: "03.11.2026", title: "AE 9027 TO", desc: "Kia Sportage · синій · 2 особи", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.car8, gallery: [PHOTOS.car8, PHOTOS.car4, PHOTOS.car5, PHOTOS.car2], note: "Перепустку перевірено.", arrival: "12:52", departure: "13:40" },
+  { id: 22, object: "P8", type: "people", time: "11:46", date: "03.11.2026", title: "2 особи", desc: "Очікують біля службового входу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people3, note: "Зустрілися зі співробітником." },
+  { id: 23, object: "D2", type: "people", time: "14:28", date: "03.11.2026", title: "5 осіб", desc: "Зміна біля прохідної", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people1, note: "Планова зміна персоналу." },
+  { id: 24, object: "D2", type: "people", time: "10:32", date: "03.11.2026", title: "2 особи", desc: "Огляд вантажного майданчика", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people2, note: "Порушень не зафіксовано." }
+);
+
 let agents = [
   { call: "СОКІЛ-7", status: "На зміні", cls: "", objects: ["X1", "B3"], count: 12 },
   { call: "ВЕКТОР-3", status: "На зміні", cls: "", objects: ["X1", "K7"], count: 8 },
@@ -54,7 +69,7 @@ const state = {
   role: null,
   page: "map",
   objectCode: "X1",
-  eventTab: "all",
+  eventTab: "car",
   notificationsOpen: false,
   sideOpen: false,
   agentUnlocked: false,
@@ -63,6 +78,9 @@ const state = {
 
 const app = document.querySelector("#app");
 const modalRoot = document.querySelector("#modal-root");
+let activeMap = null;
+let placementMarker = null;
+let placementMode = false;
 
 function icon(name, size = 18) {
   return `<i data-lucide="${name}" style="width:${size}px;height:${size}px"></i>`;
@@ -224,6 +242,8 @@ function renderMap() {
     </div>
     <div class="map-layout">
       <div id="map"></div>
+      ${admin ? `<button class="map-create-button" onclick="startObjectPlacement()">${icon("map-pin-plus")} Створити об’єкт</button>
+      <div class="placement-controls hidden"><span>${icon("move",16)} Перетягніть мітку в потрібне місце</span><button class="btn ghost" onclick="cancelObjectPlacement()">Скасувати</button><button class="btn primary" onclick="confirmObjectPlacement()">Продовжити</button></div>` : ""}
       <aside class="map-side">
         <div class="map-side-head"><div class="map-side-title"><strong>ОБ’ЄКТИ</strong><span class="event-count">${objects.length} активні</span></div></div>
         <div class="map-list">${objects.map(o => objectRow(o)).join("")}</div>
@@ -241,13 +261,44 @@ function objectRow(o) {
 function initMap() {
   if (!window.L || !document.querySelector("#map")) return;
   const map = L.map("map", { zoomControl: false }).setView([50.4492, 30.5118], 14);
+  activeMap = map;
+  placementMode = false;
+  placementMarker = null;
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(map);
   L.control.zoom({ position: "bottomright" }).addTo(map);
   objects.forEach(o => {
-    const marker = L.marker(o.coords, { icon: L.divIcon({ className: "ors-marker", html: `<div class="marker-inner"><span>${o.code}</span></div>`, iconSize: [40, 36], iconAnchor: [12, 30] }) }).addTo(map);
+    const marker = L.marker(o.coords, { bubblingMouseEvents: false, icon: L.divIcon({ className: "ors-marker", html: `<div class="marker-inner"><span>${o.code}</span></div>`, iconSize: [40, 36], iconAnchor: [12, 30] }) }).addTo(map);
     marker.on("click", () => openObjectPreview(o.code));
   });
-  if (state.role === "admin") map.on("click", e => openCreateObject(e.latlng));
+  if (state.role === "admin") map.on("click", e => {
+    if (placementMode && placementMarker) placementMarker.setLatLng(e.latlng);
+    else openCreateObject(e.latlng);
+  });
+}
+
+function startObjectPlacement() {
+  if (!activeMap) return;
+  placementMode = true;
+  const iconMarkup = L.divIcon({ className: "ors-marker placement-marker", html: `<div class="marker-inner"><span>+</span></div>`, iconSize: [44, 40], iconAnchor: [14, 34] });
+  placementMarker = L.marker(activeMap.getCenter(), { draggable: true, icon: iconMarkup }).addTo(activeMap);
+  document.querySelector(".map-create-button")?.classList.add("hidden");
+  document.querySelector(".placement-controls")?.classList.remove("hidden");
+  toast("Перетягніть зелену мітку або натисніть на потрібне місце");
+}
+
+function cancelObjectPlacement() {
+  if (activeMap && placementMarker) activeMap.removeLayer(placementMarker);
+  placementMarker = null;
+  placementMode = false;
+  document.querySelector(".map-create-button")?.classList.remove("hidden");
+  document.querySelector(".placement-controls")?.classList.add("hidden");
+}
+
+function confirmObjectPlacement() {
+  if (!placementMarker) return;
+  const position = placementMarker.getLatLng();
+  cancelObjectPlacement();
+  openCreateObject(position);
 }
 
 function openObjectPreview(code) {
@@ -262,23 +313,41 @@ function openObjectPreview(code) {
     <div class="modal-foot">${state.role === "admin" ? `<button class="btn">${icon("pencil")} Редагувати</button>` : ""}<button class="btn primary" onclick="openObject('${o.code}')">Відкрити об’єкт ${icon("arrow-right")}</button></div>`);
 }
 
-function openObject(code) { closeModal(); state.objectCode = code; state.page = "object"; state.eventTab = "all"; render(); }
+function openObject(code) { closeModal(); state.objectCode = code; state.page = "object"; state.eventTab = "car"; render(); }
 
 function openCreateObject(latlng) {
   showModal(`
     <div class="modal-head"><h3>СТВОРИТИ ОБ’ЄКТ</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div>
     <div class="modal-body">
       <div class="verify-box">Координати визначено з карти: <span class="mono">${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}</span></div>
-      <div class="input-row"><div class="field"><label>Кодова назва</label><input id="new-object-code" class="input mono" placeholder="Наприклад, P8"></div><div class="field"><label>Назва сектора</label><input class="input" placeholder="Робоча назва"></div></div>
-      <div class="field"><label>Опис</label><textarea class="textarea" placeholder="Коротко опишіть об’єкт і зони контролю"></textarea></div>
+      <div class="input-row"><div class="field"><label>Кодова назва</label><input id="new-object-code" class="input mono" placeholder="Наприклад, R6"></div><div class="field"><label>Назва сектора</label><input id="new-object-name" class="input" placeholder="Робоча назва"></div></div>
+      <div class="field"><label>Опис</label><textarea id="new-object-description" class="textarea" placeholder="Коротко опишіть об’єкт і зони контролю"></textarea></div>
       <div class="field"><label>Фото об’єкта</label><div class="media-slot" style="aspect-ratio:auto;min-height:90px">${icon("upload")}<span>Додати реальне фото</span></div></div>
     </div>
-    <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Скасувати</button><button class="btn primary" onclick="saveGeneric('Об’єкт створено')">Створити об’єкт</button></div>`);
+    <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Скасувати</button><button class="btn primary" onclick="saveNewObject(${latlng.lat},${latlng.lng})">Створити об’єкт</button></div>`);
+}
+
+function saveNewObject(lat, lng) {
+  const code = (document.querySelector("#new-object-code").value.trim() || `R${objects.length + 1}`).toUpperCase();
+  const name = document.querySelector("#new-object-name").value.trim() || "Новий сектор";
+  const description = document.querySelector("#new-object-description").value.trim() || "Нова точка спостереження. Інформація уточнюється.";
+  if (objects.some(object => object.code === code)) return toast("Такий код об’єкта вже використовується");
+  objects.push({ code, name, address: "Координати з карти", coords: [Number(lat.toFixed(4)), Number(lng.toFixed(4))], status: "Активний", photo: PHOTOS.building5, description });
+  const baseId = Date.now();
+  events.push(
+    { id: baseId, object: code, type: "car", time: "15:10", date: "03.11.2026", title: "KA 1050 OP", desc: "Audi Q5 · чорний · 2 особи", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.car1, gallery: [PHOTOS.car1, PHOTOS.car4, PHOTOS.car5, PHOTOS.car6], note: "Демонстраційна подія.", arrival: "15:10", departure: "—" },
+    { id: baseId + 1, object: code, type: "car", time: "13:42", date: "03.11.2026", title: "AI 8872 ME", desc: "Toyota RAV4 · білий · 1 особа", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car2, gallery: [PHOTOS.car2, PHOTOS.car6, PHOTOS.car3, PHOTOS.car7], note: "Демонстраційна подія.", arrival: "13:42", departure: "14:16" },
+    { id: baseId + 2, object: code, type: "people", time: "14:25", date: "03.11.2026", title: "2 особи", desc: "Біля головного входу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people1, note: "Демонстраційна подія." },
+    { id: baseId + 3, object: code, type: "people", time: "12:18", date: "03.11.2026", title: "3 особи", desc: "Рухаються до паркінгу", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.people2, note: "Демонстраційна подія." }
+  );
+  closeModal();
+  render();
+  toast(`Об’єкт ${code} створено`);
 }
 
 function renderObject() {
   const o = objects.find(x => x.code === state.objectCode) || objects[0];
-  const visible = events.filter(e => e.object === o.code && (state.role !== "guest" || e.status === "verified") && (state.eventTab === "all" || e.type === state.eventTab));
+  const visible = events.filter(e => e.object === o.code && (state.role !== "guest" || e.status === "verified") && e.type === state.eventTab);
   const content = `
     <button class="btn ghost" onclick="go('${state.role === "agent" ? "agent-entry" : "map"}')" style="margin-bottom:14px">${icon("arrow-left")} Назад</button>
     <section class="object-hero">
@@ -289,7 +358,7 @@ function renderObject() {
       <div class="card object-photo"><img src="${o.photo}" alt="${o.name}"></div>
     </section>
     <div class="event-toolbar">
-      <div class="tabs"><button class="tab ${state.eventTab==="all"?"active":""}" onclick="setEventTab('all')">Усі</button><button class="tab ${state.eventTab==="car"?"active":""}" onclick="setEventTab('car')">Авто</button><button class="tab ${state.eventTab==="people"?"active":""}" onclick="setEventTab('people')">Люди</button></div>
+      <div class="tabs"><button class="tab ${state.eventTab==="car"?"active":""}" onclick="setEventTab('car')">${icon("car-front",15)} Авто</button><button class="tab ${state.eventTab==="people"?"active":""}" onclick="setEventTab('people')">${icon("users",15)} Люди</button></div>
       <span class="event-count">${visible.length} записів</span>
       ${(state.role === "admin" || state.role === "agent") ? `<button class="btn primary" style="margin-left:auto" onclick="chooseEventType()">${icon("plus")} Додати подію</button>` : ""}
     </div>
