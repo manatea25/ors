@@ -20,12 +20,12 @@ const PHOTOS = {
 };
 
 const objects = [
-  { code: "X1", name: "Північний сектор", address: "Інститут здоров’я", coords: [50.4526, 30.5142], status: "Активний", photo: PHOTOS.building1, description: "Адміністративний комплекс. Контроль центрального входу, паркінгу та північного периметра." },
-  { code: "B3", name: "Діловий квартал", address: "Бізнес-центр", coords: [50.4461, 30.5219], status: "Активний", photo: PHOTOS.building2, description: "Офісний об’єкт із двома контрольованими в’їздами та підземним паркінгом." },
-  { code: "K7", name: "Західний контур", address: "Складський комплекс", coords: [50.4567, 30.4975], status: "Активний", photo: PHOTOS.building3, description: "Логістичний майданчик. Фіксуються всі автомобілі та відвідувачі." },
-  { code: "M4", name: "Центральний вузол", address: "Готельний комплекс", coords: [50.4397, 30.5086], status: "Активний", photo: PHOTOS.building4, description: "Об’єкт під цілодобовим спостереженням. Три входи та гостьова стоянка." },
-  { code: "P8", name: "Східний сектор", address: "Офісний кампус", coords: [50.4488, 30.5368], status: "Активний", photo: PHOTOS.building5, description: "Сучасний офісний кампус. Контроль КПП, гостьового паркінгу та службового входу." },
-  { code: "D2", name: "Промисловий сектор", address: "Виробнича територія", coords: [50.4629, 30.5272], status: "Активний", photo: PHOTOS.building6, description: "Закрита виробнича територія з окремими в’їздами для персоналу та вантажного транспорту." }
+  { code: "X1", name: "Північний сектор", address: "Eixample", coords: [41.3937, 2.1638], status: "Активний", photo: PHOTOS.building1, description: "Адміністративний комплекс. Контроль центрального входу, паркінгу та північного периметра." },
+  { code: "B3", name: "Діловий квартал", address: "Plaça de Catalunya", coords: [41.3874, 2.1686], status: "Активний", photo: PHOTOS.building2, description: "Офісний об’єкт із двома контрольованими в’їздами та підземним паркінгом." },
+  { code: "K7", name: "Західний контур", address: "Sants-Montjuïc", coords: [41.3751, 2.1496], status: "Активний", photo: PHOTOS.building3, description: "Логістичний майданчик. Фіксуються всі автомобілі та відвідувачі." },
+  { code: "M4", name: "Центральний вузол", address: "Sagrada Família", coords: [41.4036, 2.1744], status: "Активний", photo: PHOTOS.building4, description: "Об’єкт під цілодобовим спостереженням. Три входи та гостьова стоянка." },
+  { code: "P8", name: "Східний сектор", address: "Poblenou", coords: [41.3994, 2.1945], status: "Активний", photo: PHOTOS.building5, description: "Сучасний офісний кампус. Контроль КПП, гостьового паркінгу та службового входу." },
+  { code: "D2", name: "Промисловий сектор", address: "Sant Martí", coords: [41.4102, 2.2015], status: "Активний", photo: PHOTOS.building6, description: "Закрита виробнича територія з окремими в’їздами для персоналу та вантажного транспорту." }
 ];
 
 let events = [
@@ -37,7 +37,7 @@ let events = [
   { id: 6, object: "M4", type: "people", time: "09:42", date: "03.11.2026", title: "1 особа", desc: "Чоловік у темному пальті, очікує", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.people3, note: "Залишив територію о 10:03." },
   { id: 7, object: "B3", type: "car", time: "14:12", date: "03.11.2026", title: "KA 9084 IP", desc: "Mercedes-Benz E-Class · сірий · 1 особа", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car4, gallery: [PHOTOS.car4, PHOTOS.car1, PHOTOS.car7, PHOTOS.car5], note: "Зупинився на гостьовій стоянці.", arrival: "14:12", departure: "14:48" },
   { id: 8, object: "B3", type: "car", time: "13:47", date: "03.11.2026", title: "CE 4402 BX", desc: "BMW X5 · синій · 3 особи", agent: "ФАКЕЛ-2", status: "verified", image: PHOTOS.car5, gallery: [PHOTOS.car5, PHOTOS.car8, PHOTOS.car2, PHOTOS.car4], note: "Водій показав перепустку.", arrival: "13:47", departure: "—" },
-  { id: 9, object: "P8", type: "car", time: "15:04", date: "03.11.2026", title: "AC 1936 HM", desc: "Renault Megane · білий · 2 особи", agent: "СОКІЛ-7", status: "pending", image: PHOTOS.car6, gallery: [PHOTOS.car6, PHOTOS.car2, PHOTOS.car5, PHOTOS.car7], note: "Очікує перед службовим входом.", arrival: "15:04", departure: "—" },
+  { id: 9, object: "P8", type: "car", time: "15:04", date: "03.11.2026", title: "KA 2311 CE", desc: "Audi A6 · чорний · 2 особи", agent: "СОКІЛ-7", status: "pending", image: PHOTOS.car6, gallery: [PHOTOS.car6, PHOTOS.car2, PHOTOS.car5, PHOTOS.car7], note: "Повторно помічений біля іншого об’єкта.", arrival: "15:04", departure: "—" },
   { id: 10, object: "P8", type: "people", time: "14:51", date: "03.11.2026", title: "4 особи", desc: "Вийшли з офісного корпусу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people1, note: "Пройшли у напрямку паркінгу." },
   { id: 11, object: "D2", type: "car", time: "13:22", date: "03.11.2026", title: "BK 7051 IA", desc: "Ford Transit · білий · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car7, gallery: [PHOTOS.car7, PHOTOS.car3, PHOTOS.car6, PHOTOS.car1], note: "Вантажний транспорт, в’їзд за накладною.", arrival: "13:22", departure: "14:05" },
   { id: 12, object: "D2", type: "car", time: "11:16", date: "03.11.2026", title: "AX 3810 EP", desc: "Skoda Octavia · чорний · 1 особа", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car8, gallery: [PHOTOS.car8, PHOTOS.car4, PHOTOS.car5, PHOTOS.car2], note: "Автомобіль співробітника.", arrival: "11:16", departure: "—" }
@@ -99,11 +99,8 @@ function login() {
     <main class="login-page">
       <section class="login-panel">
         <div class="brand">
-          <div class="brand-mark">${icon("scan-line", 22)}</div>
-          <div>
-            <div class="brand-name">ORS</div>
-            <div class="brand-copy">OBSERVATION AND RECORDING SYSTEM<br>СИСТЕМА СПОСТЕРЕЖЕННЯ ТА ФІКСАЦІЇ</div>
-          </div>
+          <img class="brand-logo" src="./assets/ors-logo.jpg" alt="ORS — Observation and Recon System">
+          <div class="brand-copy">СИСТЕМА СПОСТЕРЕЖЕННЯ ТА РЕКОГНОСТУВАННЯ</div>
         </div>
         <form class="login-box" onsubmit="handleLogin(event)">
           <div class="eyebrow">Захищений доступ</div>
@@ -153,10 +150,11 @@ function sidebar() {
   const item = (page, label, ico) => `<button class="nav-item ${state.page === page ? "active" : ""}" onclick="go('${page}')">${icon(ico)}<span>${label}</span></button>`;
   return `
     <aside class="sidebar ${state.sideOpen ? "open" : ""}">
-      <div class="side-brand"><div class="brand-mark">${icon("scan-line", 18)}</div><strong>ORS</strong></div>
+      <div class="side-brand"><img src="./assets/ors-logo.jpg" alt="ORS"></div>
       <nav class="nav">
         <div class="nav-label">РОБОЧИЙ ПРОСТІР</div>
         ${!agent ? item("map", "Оперативна карта", "map") : item("agent-entry", "Об’єкт спостереження", "crosshair")}
+        ${!agent ? item("statistics", "Статистика", "chart-no-axes-combined") : ""}
         ${admin ? item("agents", "Агенти", "users") : ""}
         ${admin ? item("access", "Доступи", "key-round") : ""}
         ${!agent ? item("archive", "Архів подій", "archive") : ""}
@@ -202,6 +200,7 @@ function render() {
   if (state.page === "access") return renderAccess();
   if (state.page === "agent-entry") return renderAgentEntry();
   if (state.page === "archive") return renderArchive();
+  if (state.page === "statistics") return renderStatistics();
   renderSettings();
 }
 
@@ -232,13 +231,13 @@ function renderMap() {
   const content = `
     <div class="page-heading">
       <div><h2>Оперативна карта</h2><p>Поточний стан об’єктів і остання зафіксована активність</p></div>
-      ${admin ? `<div class="heading-actions"><button class="btn" onclick="openGuestAccess()">${icon("key-round")} Вхід для гостя</button><button class="btn primary" onclick="openCreateAgent()">${icon("user-plus")} Створити агента</button></div>` : ""}
+      <div class="heading-actions"><button class="btn statistics-cta" onclick="go('statistics')">${icon("chart-no-axes-combined")} Статистика та звіти</button>${admin ? `<button class="btn" onclick="openGuestAccess()">${icon("key-round")} Вхід для гостя</button><button class="btn primary" onclick="openCreateAgent()">${icon("user-plus")} Створити агента</button>` : ""}</div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-label">Об’єкти</div><div class="stat-value">${objects.length.toString().padStart(2,"0")}</div><div class="stat-note good">Усі на зв’язку</div></div>
-      <div class="stat"><div class="stat-label">Події сьогодні</div><div class="stat-value">${events.length.toString().padStart(2,"0")}</div><div class="stat-note">+4 за останню годину</div></div>
-      <div class="stat"><div class="stat-label">Агенти на зміні</div><div class="stat-value">02</div><div class="stat-note good">Із 4 активних</div></div>
-      <div class="stat"><div class="stat-label">На перевірці</div><div class="stat-value warn">${events.filter(e => e.status === "pending").length.toString().padStart(2,"0")}</div><div class="stat-note">Потребує уваги</div></div>
+      <button class="stat stat-button" onclick="openDashboardDetail('objects')"><div class="stat-label">Об’єкти</div><div class="stat-value">${objects.length.toString().padStart(2,"0")}</div><div class="stat-note good">Переглянути список →</div></button>
+      <button class="stat stat-button" onclick="go('archive')"><div class="stat-label">Події сьогодні</div><div class="stat-value">${events.length.toString().padStart(2,"0")}</div><div class="stat-note">Відкрити архів →</div></button>
+      <button class="stat stat-button" onclick="openDashboardDetail('agents')"><div class="stat-label">Агенти на зміні</div><div class="stat-value">02</div><div class="stat-note good">Переглянути активність →</div></button>
+      <button class="stat stat-button" onclick="openDashboardDetail('${admin ? "pending" : "verified"}')"><div class="stat-label">${admin ? "На перевірці" : "Верифіковано"}</div><div class="stat-value ${admin ? "warn" : ""}">${(admin ? events.filter(e => e.status === "pending").length : events.filter(e => e.status === "verified").length).toString().padStart(2,"0")}</div><div class="stat-note">${admin ? "Потребує уваги" : "Доступні записи"} →</div></button>
     </div>
     <div class="map-layout">
       <div id="map"></div>
@@ -250,7 +249,7 @@ function renderMap() {
         <div class="map-footer">${admin ? "Натисніть на порожню ділянку карти, щоб створити новий об’єкт." : "Гостьовий режим. Дані доступні лише для перегляду."}</div>
       </aside>
     </div>`;
-  shell(content, "Центр спостереження", "Київ · 03 листопада 2026 · 15:20");
+  shell(content, "Центр спостереження", "Барселона · 03 листопада 2026 · 15:20");
   setTimeout(initMap, 0);
 }
 
@@ -260,7 +259,7 @@ function objectRow(o) {
 
 function initMap() {
   if (!window.L || !document.querySelector("#map")) return;
-  const map = L.map("map", { zoomControl: false }).setView([50.4492, 30.5118], 14);
+  const map = L.map("map", { zoomControl: false }).setView([41.3932, 2.1742], 13);
   activeMap = map;
   placementMode = false;
   placementMarker = null;
@@ -322,7 +321,7 @@ function openCreateObject(latlng) {
       <div class="verify-box">Координати визначено з карти: <span class="mono">${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}</span></div>
       <div class="input-row"><div class="field"><label>Кодова назва</label><input id="new-object-code" class="input mono" placeholder="Наприклад, R6"></div><div class="field"><label>Назва сектора</label><input id="new-object-name" class="input" placeholder="Робоча назва"></div></div>
       <div class="field"><label>Опис</label><textarea id="new-object-description" class="textarea" placeholder="Коротко опишіть об’єкт і зони контролю"></textarea></div>
-      <div class="field"><label>Фото об’єкта</label><div class="media-slot" style="aspect-ratio:auto;min-height:90px">${icon("upload")}<span>Додати реальне фото</span></div></div>
+      <div class="field"><label>Фото об’єкта</label><button type="button" class="media-slot" onclick="mockMedia(this,'Фото об’єкта')" style="width:100%;aspect-ratio:auto;min-height:90px">${icon("upload")}<span>Додати фото · демо</span></button></div>
     </div>
     <div class="modal-foot"><button class="btn ghost" onclick="closeModal()">Скасувати</button><button class="btn primary" onclick="saveNewObject(${latlng.lat},${latlng.lng})">Створити об’єкт</button></div>`);
 }
@@ -431,10 +430,10 @@ function openEventForm(type) {
 }
 
 function captureGroup(label) {
-  return `<div class="capture-group"><strong>${label}</strong><div><label class="capture-action">${icon("camera",15)} <span>Камера</span><input type="file" accept="image/*" capture="environment" hidden onchange="filePicked(this)"></label><label class="capture-action">${icon("folder-open",15)} <span>Файли</span><input type="file" accept="image/*" hidden onchange="filePicked(this)"></label></div></div>`;
+  return `<div class="capture-group"><strong>${label}</strong><div><button type="button" class="capture-action" onclick="mockMedia(this,'Камера')">${icon("camera",15)} <span>Камера</span></button><button type="button" class="capture-action" onclick="mockMedia(this,'Файли')">${icon("folder-open",15)} <span>Файли</span></button></div></div>`;
 }
-function mediaSlot(label, ico="camera", accept="image/*") { return `<label class="media-slot">${icon(ico)}<span>${label}</span><input type="file" accept="${accept}" hidden onchange="filePicked(this)"></label>`; }
-function filePicked(input) { input.parentElement.style.borderStyle = "solid"; input.parentElement.style.color = "var(--accent)"; input.parentElement.querySelector("span").textContent = "Матеріал додано"; }
+function mediaSlot(label, ico="camera") { return `<button type="button" class="media-slot" onclick="mockMedia(this,'${label}')">${icon(ico)}<span>${label}</span></button>`; }
+function mockMedia(element, source) { element.style.borderStyle = "solid"; element.style.color = "var(--accent-strong)"; element.querySelector("span").textContent = `${source} · демо`; toast("Демонстраційна заглушка — доступ до пристрою вимкнено"); }
 
 function saveEvent(ev, type) {
   ev.preventDefault();
@@ -443,6 +442,79 @@ function saveEvent(ev, type) {
   events.unshift({ id: Date.now(), object: state.objectCode, type, time: "15:20", date: "03.11.2026", title: type === "people" ? `${titleInput} осіб` : titleInput.toUpperCase(), desc, agent: state.role === "agent" ? "СОКІЛ-7" : "АДМІН", status: state.role === "admin" ? "verified" : "pending", image: type === "car" ? PHOTOS.car1 : PHOTOS.people1, gallery: type === "car" ? [PHOTOS.car1, PHOTOS.car4, PHOTOS.car5, PHOTOS.car6] : [PHOTOS.people1], note: document.querySelector("#event-note").value || "Без додаткової примітки.", arrival: "15:20", departure: "—" });
   if (state.role === "agent") state.newNotifications++;
   closeModal(); render(); toast(state.role === "agent" ? "Подію збережено та надіслано адміністратору" : "Подію збережено");
+}
+
+function openDashboardDetail(kind) {
+  if (kind === "objects") {
+    return showModal(`<div class="modal-head"><h3>УСІ ОБ’ЄКТИ · БАРСЕЛОНА</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div><div class="modal-body"><div class="detail-list">${objects.map(o => `<button onclick="openObject('${o.code}')"><span class="object-code">${o.code}</span><span><b>${o.name}</b><small>${o.address} · ${events.filter(e=>e.object===o.code).length} подій</small></span>${icon("chevron-right")}</button>`).join("")}</div></div>`);
+  }
+  if (kind === "agents") {
+    return showModal(`<div class="modal-head"><h3>АКТИВНІСТЬ АГЕНТІВ</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div><div class="modal-body"><div class="detail-list">${agents.map(a => `<div class="detail-static"><span class="avatar">${a.call.slice(0,2)}</span><span><b>${a.call}</b><small>${a.status} · ${a.count} подій · ${a.objects.join(", ")}</small></span><span class="status ${a.cls}">${a.status}</span></div>`).join("")}</div></div>`);
+  }
+  const filtered = events.filter(e => kind === "pending" ? e.status === "pending" : e.status === "verified").slice(0, 8);
+  showModal(`<div class="modal-head"><h3>${kind === "pending" ? "ПОДІЇ НА ПЕРЕВІРЦІ" : "ВЕРИФІКОВАНІ ПОДІЇ"}</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div><div class="modal-body"><div class="detail-list">${filtered.map(e => `<button onclick="closeModal();openObject('${e.object}');setTimeout(()=>openEvent(${e.id}),50)"><span class="object-code">${e.object}</span><span><b>${e.title}</b><small>${e.date} · ${e.time} · ${e.agent}</small></span>${icon("chevron-right")}</button>`).join("")}</div></div>`);
+}
+
+const vehicleAnalytics = [
+  { plate: "KA 2311 CE", model: "Audi A6", visits: 5, objects: "X1, P8, B3", duration: "03:42", risk: "Підвищений" },
+  { plate: "AA 8420 KT", model: "Toyota Camry", visits: 4, objects: "X1, M4", duration: "02:18", risk: "Середній" },
+  { plate: "BK 7051 IA", model: "Ford Transit", visits: 3, objects: "D2, K7", duration: "01:54", risk: "Звичайний" },
+  { plate: "CE 4402 BX", model: "BMW X5", visits: 3, objects: "B3", duration: "04:26", risk: "Середній" },
+  { plate: "AE 9027 TO", model: "Kia Sportage", visits: 2, objects: "P8", duration: "00:48", risk: "Звичайний" }
+];
+
+function renderStatistics() {
+  const content = `
+    <div class="page-heading"><div><h2>Аналітика та статистика</h2><p>Аналіз переміщень, повторних появ і тривалості перебування</p></div><div class="heading-actions"><button class="btn" onclick="openReport('all')">${icon("file-text")} Приклад PDF-звіту</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} Сформувати PDF</button></div></div>
+    <section class="card filter-panel">
+      <div class="field"><label>Період від</label><input class="input" type="date" value="2026-10-27"></div>
+      <div class="field"><label>Період до</label><input class="input" type="date" value="2026-11-03"></div>
+      <div class="field"><label>Об’єкт</label><select class="select"><option>Усі об’єкти</option>${objects.map(o=>`<option>${o.code} · ${o.name}</option>`).join("")}</select></div>
+      <div class="field"><label>Тип події</label><select class="select"><option>Авто та люди</option><option>Лише авто</option><option>Лише люди</option></select></div>
+      <button class="btn primary" onclick="toast('Фільтри застосовано')">${icon("sliders-horizontal")} Застосувати</button>
+    </section>
+    <div class="analytics-metrics">
+      <article class="card metric"><span>${icon("repeat-2")}</span><div><small>Найчастіше авто</small><strong>KA 2311 CE</strong><p>5 появ · 3 об’єкти</p></div></article>
+      <article class="card metric"><span>${icon("timer")}</span><div><small>Найдовша стоянка</small><strong>04 год 26 хв</strong><p>CE 4402 BX · B3</p></div></article>
+      <article class="card metric"><span>${icon("clock-3")}</span><div><small>Пікова активність</small><strong>14:00–16:00</strong><p>37% усіх подій</p></div></article>
+      <article class="card metric"><span>${icon("scan-search")}</span><div><small>Повторні появи</small><strong>08 авто</strong><p>На двох і більше об’єктах</p></div></article>
+    </div>
+    <section class="alert-card">
+      <div class="alert-symbol">${icon("triangle-alert",24)}</div><div><div class="eyebrow">АНАЛІТИЧНИЙ СИГНАЛ</div><h3>KA 2311 CE зафіксовано біля кількох об’єктів</h3><p>Автомобіль помічено на <b>X1</b>, <b>P8</b> та <b>B3</b> протягом 48 годин. Послідовність переміщень нетипова для попередньої історії.</p></div><button class="btn" onclick="openReport('KA 2311 CE')">Детальний звіт</button>
+    </section>
+    <div class="analytics-grid">
+      <section class="card analytics-card"><div class="section-head"><div><span class="eyebrow">НАВАНТАЖЕННЯ</span><h3>Події за об’єктами</h3></div><span class="event-count">останні 7 днів</span></div><div class="bar-chart">${objects.map((o,i)=>`<div><span>${o.code}</span><i style="height:${[76,61,48,69,42,55][i]}%"></i><b>${[42,34,27,38,23,31][i]}</b></div>`).join("")}</div></section>
+      <section class="card analytics-card"><div class="section-head"><div><span class="eyebrow">РОЗПОДІЛ</span><h3>Активність за часом</h3></div></div><div class="hour-grid">${["00–04","04–08","08–12","12–16","16–20","20–24"].map((h,i)=>`<div><span>${h}</span><strong>${[5,9,28,47,33,14][i]}</strong><i style="width:${[10,19,59,100,70,30][i]}%"></i></div>`).join("")}</div></section>
+    </div>
+    <section class="card data-section"><div class="section-head"><div><span class="eyebrow">ТРАНСПОРТ</span><h3>Порівняння автомобілів</h3></div><select class="select sort-select" onchange="sortVehicleTable(this.value)"><option value="visits">За кількістю появ</option><option value="duration">За тривалістю</option><option value="plate">За номером</option></select></div><div class="table-wrap"><table><thead><tr><th>Номер</th><th>Автомобіль</th><th>Появи</th><th>Об’єкти</th><th>Час на об’єктах</th><th>Оцінка</th></tr></thead><tbody id="vehicle-table">${vehicleRows(vehicleAnalytics)}</tbody></table></div></section>
+    <section class="report-builder card"><div><span class="eyebrow">ЗВІТНІСТЬ</span><h3>Сформувати звіт за фільтрами або об’єктом</h3><p>Звіт міститиме статистику, хронологію, автомобілі, людей, матеріали й аналітичні сигнали.</p></div><select id="report-object" class="select"><option value="all">Усі об’єкти</option>${objects.map(o=>`<option value="${o.code}">${o.code} · ${o.name}</option>`).join("")}</select><button class="btn" onclick="openReport(document.querySelector('#report-object').value)">${icon("eye")} Переглянути</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} PDF-звіт</button></section>`;
+  shell(content, "Статистика", "Барселона · аналітичний центр ORS");
+}
+
+function vehicleRows(rows) {
+  return rows.map(v => `<tr><td class="mono">${v.plate}</td><td>${v.model}</td><td>${v.visits}</td><td class="mono">${v.objects}</td><td class="mono">${v.duration}</td><td><span class="risk ${v.risk === "Підвищений" ? "high" : ""}">${v.risk}</span></td></tr>`).join("");
+}
+
+function sortVehicleTable(value) {
+  const sorted = [...vehicleAnalytics].sort((a,b) => value === "plate" ? a.plate.localeCompare(b.plate) : value === "duration" ? b.duration.localeCompare(a.duration) : b.visits-a.visits);
+  document.querySelector("#vehicle-table").innerHTML = vehicleRows(sorted);
+}
+
+function openReport(subject) {
+  const label = subject === "all" ? "Усі об’єкти" : subject;
+  showModal(`<div class="modal-head"><h3>ПОПЕРЕДНІЙ ПЕРЕГЛЯД PDF</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div><div class="modal-body report-preview">
+    <div class="report-logo"><img src="./assets/ors-logo.jpg" alt="ORS"><span>СИСТЕМА СПОСТЕРЕЖЕННЯ ТА РЕКОГНОСТУВАННЯ</span></div>
+    <div class="report-title"><div><small>АНАЛІТИЧНИЙ ЗВІТ № ORS-1103-26</small><h2>${label}</h2></div><div><small>ПЕРІОД</small><b>27.10–03.11.2026</b></div></div>
+    <div class="report-summary"><div><small>Подій</small><b>24</b></div><div><small>Автомобілів</small><b>14</b></div><div><small>Осіб</small><b>38</b></div><div><small>Сигналів</small><b>03</b></div></div>
+    <h4>Ключовий висновок</h4><p>Найвища активність зафіксована в період 14:00–16:00. Автомобіль <b>KA 2311 CE</b> повторно з’являвся біля X1, P8 та B3. Рекомендовано перевірити пов’язані події.</p>
+    <h4>Активність за об’єктами</h4><div class="report-bars">${objects.map((o,i)=>`<div><span>${o.code}</span><i><b style="width:${[92,74,58,82,48,65][i]}%"></b></i><em>${[42,34,27,38,23,31][i]}</em></div>`).join("")}</div>
+    <h4>Найчастіші автомобілі</h4><table><thead><tr><th>Номер</th><th>Появи</th><th>Об’єкти</th><th>Час</th></tr></thead><tbody>${vehicleAnalytics.slice(0,3).map(v=>`<tr><td>${v.plate}</td><td>${v.visits}</td><td>${v.objects}</td><td>${v.duration}</td></tr>`).join("")}</tbody></table>
+    <div class="report-footer">ORS · сформовано 03.11.2026 о 15:20 · сторінка 1/4</div>
+  </div><div class="modal-foot"><button class="btn" onclick="closeModal()">Закрити</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} Сформувати PDF</button></div>`, "wide");
+}
+
+function mockPdf() {
+  toast("Демо: PDF-звіт сформовано. Завантаження вимкнено у прототипі.");
 }
 
 function renderAgents() {
