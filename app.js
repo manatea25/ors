@@ -135,6 +135,22 @@ let events = [
   { id: 33, object: "T6", type: "note", time: "10:12", date: "31.10.2026", title: "Зв’язок Тест 5 і Тест 6", desc: "Текстова нотатка агента", agent: "ФАКЕЛ-2", status: "verified", image: "", gallery: [], note: "Тест 6 повторює режим Тест 5: військові та єврономери, змішаний одяг. Спостереження триває.", audio: "00:29", fresh: true }
 ];
 
+const plateSeed = {
+  1: ["mismatch", "номер не співпадає"], 2: ["match", "номер співпадає"], 3: ["pending", "очікує перевірки номера"], 4: ["match", "номер співпадає"],
+  8: ["match", "номер співпадає"], 9: ["mismatch", "номер не співпадає"], 14: ["pending", "очікує перевірки номера"], 15: ["match", "номер співпадає"],
+  19: ["mismatch", "номер не співпадає"], 20: ["pending", "очікує перевірки номера"], 24: ["match", "номер співпадає"], 25: ["mismatch", "номер не співпадає"],
+  29: ["match", "номер співпадає"], 30: ["pending", "очікує перевірки номера"], 101: ["mismatch", "номер не співпадає"], 103: ["match", "номер співпадає"],
+  105: ["match", "номер співпадає"], 107: ["pending", "очікує перевірки номера"], 108: ["mismatch", "номер не співпадає"], 109: ["mismatch", "номер не співпадає"],
+  111: ["match", "номер співпадає"], 112: ["pending", "очікує перевірки номера"], 115: ["match", "номер співпадає"], 118: ["mismatch", "номер не співпадає"],
+  119: ["match", "номер співпадає"], 121: ["match", "номер співпадає"]
+};
+events.forEach(event => {
+  if (event.type !== "car") return;
+  const seed = plateSeed[event.id] || ["pending", "очікує перевірки номера"];
+  event.plateMatch = seed[0];
+  event.plateReason = seed[1];
+});
+
 let agents = [
   { call: "СОКІЛ-7", status: "На зміні", cls: "", objects: ["X1", "B3", "T1", "T3"], count: 0 },
   { call: "ВЕКТОР-3", status: "На зміні", cls: "", objects: ["K7", "P8", "T2", "T5"], count: 0 },
@@ -425,8 +441,8 @@ function saveNewObject(lat, lng) {
   objects.push({ code, name, group: "base", address: "Координати з карти", coords: [Number(lat.toFixed(4)), Number(lng.toFixed(4))], status: "Активний", photo: PHOTOS.building5, description });
   const baseId = Date.now();
   events.unshift(
-    { id: baseId, object: code, type: "car", time: "15:10", date: "31.10.2026", title: "Нове авто", desc: "Дані уточнюються · 1 особа", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.euroCar, gallery: [PHOTOS.euroCar], note: "Демонстраційна подія нового об’єкта.", arrival: "15:10", departure: "—", fresh: true },
-    { id: baseId + 1, object: code, type: "car", time: "13:42", date: "31.10.2026", title: "Друге авто", desc: "Дані уточнюються · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car2, gallery: [PHOTOS.car2], note: "Демонстраційна подія нового об’єкта.", arrival: "13:42", departure: "14:16", fresh: true },
+    { id: baseId, object: code, type: "car", time: "15:10", date: "31.10.2026", title: "Нове авто", desc: "Дані уточнюються · 1 особа", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.euroCar, gallery: [PHOTOS.euroCar], note: "Демонстраційна подія нового об’єкта.", arrival: "15:10", departure: "—", fresh: true, plateMatch: "pending", plateReason: "очікує перевірки номера" },
+    { id: baseId + 1, object: code, type: "car", time: "13:42", date: "31.10.2026", title: "Друге авто", desc: "Дані уточнюються · 2 особи", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.car2, gallery: [PHOTOS.car2], note: "Демонстраційна подія нового об’єкта.", arrival: "13:42", departure: "14:16", fresh: true, plateMatch: "pending", plateReason: "очікує перевірки номера" },
     { id: baseId + 2, object: code, type: "people", time: "14:25", date: "31.10.2026", title: "2 особи", desc: "Біля головного входу", agent: "СОКІЛ-7", status: "verified", image: PHOTOS.people1, gallery: [PHOTOS.people1], note: "Демонстраційна подія нового об’єкта.", fresh: true },
     { id: baseId + 3, object: code, type: "people", time: "12:18", date: "31.10.2026", title: "3 особи", desc: "Рухаються територією", agent: "ВЕКТОР-3", status: "verified", image: PHOTOS.peopleWalk, gallery: [PHOTOS.peopleWalk], note: "Демонстраційна подія нового об’єкта.", fresh: true },
     { id: baseId + 4, object: code, type: "note", time: "15:20", date: "31.10.2026", title: "Перша нотатка", desc: "Текст спостереження", agent: "СОКІЛ-7", status: "pending", image: "", gallery: [], note: "Нотатка агента щодо нового об’єкта.", audio: "", fresh: true }
@@ -458,6 +474,29 @@ function renderObject() {
   shell(content, o.name, o.address);
 }
 
+function plateLabel(value) {
+  if (value === "match") return "Номер співпадає";
+  if (value === "mismatch") return "Номер не співпадає";
+  return "Номер очікує перевірки";
+}
+
+function plateControl(event, reopen) {
+  if (event.type !== "car") return "";
+  if (state.role !== "admin") return `<span class="plate-pill ${event.plateMatch || "pending"}">${plateLabel(event.plateMatch)}</span>`;
+  return `<div class="plate-switch" onclick="event.stopPropagation()"><button type="button" class="${event.plateMatch === "mismatch" ? "mismatch" : ""}" onclick="setPlateMatch(${event.id},'mismatch',${reopen})">Не співпадає</button><button type="button" class="${event.plateMatch === "match" ? "match" : ""}" onclick="setPlateMatch(${event.id},'match',${reopen})">Співпадає</button></div>`;
+}
+
+function setPlateMatch(id, value, reopen) {
+  if (state.role !== "admin") return;
+  const event = events.find(item => item.id === id);
+  if (!event || event.type !== "car") return;
+  event.plateMatch = value;
+  event.plateReason = value === "match" ? "номер співпадає" : "номер не співпадає";
+  render();
+  if (reopen) openEvent(id);
+  toast(event.plateReason);
+}
+
 function eventCard(e) {
   const meta = eventMeta(e.type);
   const visual = e.image
@@ -466,10 +505,10 @@ function eventCard(e) {
       ? `<div class="note-visual"><b>${e.title}</b><p>${e.note}</p></div>`
       : `<div class="no-photo-visual">${icon("image-off", 26)}<b>Немає фото</b></div>`;
   return `<article class="card event-card ${e.type === "note" ? "note-card" : ""}" onclick="openEvent(${e.id})">
-    <div class="event-image">${visual}<span class="event-type">${meta.card}</span></div>
+    <div class="event-image">${visual}<span class="event-type">${meta.card}</span>${e.type === "car" ? `<span class="plate-dot ${e.plateMatch || "pending"}"></span>` : ""}</div>
     <div class="event-body"><div class="event-head"><div><h3>${e.title}</h3><div class="event-desc">${e.desc}</div></div><time>${e.date}<br>${e.time}</time></div>
     <div class="event-meta"><span>${icon("user-round",12)} ${e.agent}</span><span>${icon("map-pin",12)} ${objectName(e.object)}</span>${e.audio ? `<span>${icon("mic",12)} Диктофон ${e.audio}</span>` : ""}</div>
-    <div style="margin-top:10px"><span class="verification ${e.status === "verified" ? "ok" : "pending"}">${e.status === "verified" ? "ПІДТВЕРДЖЕНО" : "ОЧІКУЄ ПЕРЕВІРКИ"}</span></div></div>
+    <div class="card-status">${plateControl(e, false)}<span class="verification ${e.status === "verified" ? "ok" : "pending"}">${e.status === "verified" ? "ПІДТВЕРДЖЕНО" : "ОЧІКУЄ ПЕРЕВІРКИ"}</span></div></div>
   </article>`;
 }
 
@@ -500,7 +539,7 @@ function openEvent(id) {
       <div class="event-head"><div><div class="eyebrow">${meta.name}</div><h2 class="mono" style="margin:7px 0">${e.title}</h2></div><time>${e.date}<br>${e.time}</time></div>
       <p style="color:var(--muted);font-size:13px">${e.desc}</p>
       <div class="object-details"><div><div class="detail-label">Додав агент</div><div class="detail-value mono">${e.agent}</div></div><div><div class="detail-label">Дата і час запису</div><div class="detail-value mono">${e.date} · ${e.time}</div></div><div><div class="detail-label">Об’єкт</div><div class="detail-value mono">${objectName(e.object)}</div></div></div>
-      ${e.type === "car" ? `<div class="object-details"><div><div class="detail-label">Прибуття</div><div class="detail-value mono">${e.arrival || e.time}</div></div><div><div class="detail-label">Вибуття</div><div class="detail-value mono">${e.departure || "—"}</div></div></div>` : ""}
+      ${e.type === "car" ? `<div class="object-details"><div><div class="detail-label">Прибуття</div><div class="detail-value mono">${e.arrival || e.time}</div></div><div><div class="detail-label">Вибуття</div><div class="detail-value mono">${e.departure || "—"}</div></div></div><div class="form-section">ПЕРЕВІРКА НОМЕРА</div><p style="font-size:13px">${e.plateReason || plateLabel(e.plateMatch)}</p>${plateControl(e, true)}` : ""}
       <div class="form-section">${e.type === "note" ? "ТЕКСТ НОТАТКИ" : "ПРИМІТКА"}</div><p style="font-size:13px;line-height:1.55">${e.note}</p>
       ${e.audio ? `<div class="form-section">ДИКТОФОН</div><button type="button" class="media-slot" style="width:100%;aspect-ratio:auto;min-height:74px" onclick="toast('Демо: відтворення без реального аудіофайлу')">${icon("mic")}<span>Запис ${e.audio} · розпізнаний текст вище</span></button>` : ""}
       ${gallery.length ? `<div class="form-section">ФОТОМАТЕРІАЛИ</div><div class="evidence-grid">${gallery.map(src => `<button class="evidence" onclick="previewImage('${src}')"><img src="${src}" alt="${evidenceLabel(src)}"><span>${evidenceLabel(src)}</span></button>`).join("")}</div>` : e.type !== "note" ? `<div class="form-section">ФОТОМАТЕРІАЛИ</div><div class="no-photo-inline">${icon("image-off", 18)} Немає фото</div>` : ""}
@@ -588,7 +627,9 @@ function saveEvent(ev, type) {
     audio: noteField.dataset.audio || "",
     arrival: "18:40",
     departure: "—",
-    fresh: true
+    fresh: true,
+    plateMatch: type === "car" ? "pending" : "",
+    plateReason: type === "car" ? "очікує перевірки номера" : ""
   });
   state.newNotifications = events.filter(event => event.fresh).length;
   closeModal();
@@ -666,9 +707,9 @@ function renderStatistics() {
     <section class="card filter-panel">
       <div class="field"><label>Період від</label><input class="input" type="date" value="${reportCase.from}"></div>
       <div class="field"><label>Період до</label><input class="input" type="date" value="${reportCase.to}"></div>
-      <div class="field"><label>Об’єкт</label><select id="stats-object" class="select"><option value="report">Об’єкти звіту</option><option value="all">Усі об’єкти</option>${objects.map(o=>`<option value="${o.code}">${o.name}</option>`).join("")}</select></div>
+      <div class="field"><label>Об’єкти</label><details class="check-dropdown"><summary id="stats-object-label">Тест 1–7</summary><div class="check-menu"><div class="check-menu-actions"><button type="button" class="btn ghost" onclick="setStatsObjects(true)">Усі</button><button type="button" class="btn ghost" onclick="setStatsObjects(false)">Зняти</button><button type="button" class="btn ghost" onclick="setStatsObjects('report')">Тест 1–7</button></div>${objects.map(object => `<label class="check-line"><input class="stats-object" type="checkbox" value="${object.code}" ${object.group === "report" ? "checked" : ""} onchange="updateStatsObjectLabel()"> ${object.name}</label>`).join("")}</div></details></div>
       <div class="field"><label>Тип події</label><select class="select"><option>Авто, люди та нотатки</option><option>Лише авто</option><option>Лише люди</option><option>Лише нотатки</option></select></div>
-      <button class="btn primary" onclick="openReport(document.querySelector('#stats-object').value)">${icon("sliders-horizontal")} Застосувати</button>
+      <button class="btn primary" onclick="applyStatsFilter()">${icon("sliders-horizontal")} Застосувати</button>
     </section>
     <div class="analytics-metrics">
       <article class="card metric"><span>${icon("repeat-2")}</span><div><small>Найчастіше авто</small><strong>${top.plate}</strong><p>${top.visits} появ · ${top.objects}</p></div></article>
@@ -684,7 +725,7 @@ function renderStatistics() {
       <section class="card analytics-card"><div class="section-head"><div><span class="eyebrow">РОЗПОДІЛ</span><h3>Активність за часом</h3></div></div><div class="hour-grid">${["00–04","04–08","08–12","12–16","16–20","20–24"].map((h,i)=>`<div><span>${h}</span><strong>${hours[i]}</strong><i style="width:${Math.max(6, hours[i] / maxHour * 100)}%"></i></div>`).join("")}</div></section>
     </div>
     <section class="card data-section"><div class="section-head"><div><span class="eyebrow">ТРАНСПОРТ</span><h3>Порівняння автомобілів</h3></div><select class="select sort-select" onchange="sortVehicleTable(this.value)"><option value="visits">За кількістю появ</option><option value="duration">За тривалістю</option><option value="plate">За номером</option></select></div><div class="table-wrap"><table><thead><tr><th>Номер</th><th>Автомобіль</th><th>Появи</th><th>Об’єкти</th><th>Час на об’єктах</th><th>Оцінка</th></tr></thead><tbody id="vehicle-table">${vehicleRows(vehicleAnalytics)}</tbody></table></div></section>
-    <section class="report-builder card"><div><span class="eyebrow">ЗВІТНІСТЬ</span><h3>Сформувати звіт за фільтрами або об’єктом</h3><p>Звіт міститиме статистику, хронологію, автомобілі, людей, матеріали й аналітичні сигнали.</p></div><select id="report-object" class="select"><option value="report">Об’єкти звіту</option><option value="all">Усі об’єкти</option>${objects.map(o=>`<option value="${o.code}">${o.name}</option>`).join("")}</select><button class="btn" onclick="openReport(document.querySelector('#report-object').value)">${icon("eye")} Переглянути</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} PDF-звіт</button></section>`;
+    ${reportBuilderHtml()}`;
   shell(content, "Статистика", "Барселона · аналітичний центр ORS");
 }
 
@@ -697,38 +738,162 @@ function sortVehicleTable(value) {
   document.querySelector("#vehicle-table").innerHTML = vehicleRows(sorted);
 }
 
+const reportSectionList = [
+  ["summary", "Підсумок кількостей"],
+  ["conclusion", "Висновок"],
+  ["criteria", "Критерії"],
+  ["objects", "Опис об’єктів і хронологія"],
+  ["notes", "Нотатки агентів"],
+  ["photos", "Фотоматеріали"],
+  ["people", "Кількість людей"],
+  ["repeats", "Повторні номери авто"],
+  ["colorMake", "Повторні колір і марка"],
+  ["duration", "Час на об’єкті"],
+  ["agents", "Агенти"],
+  ["plates", "Перевірка номерів"],
+  ["closing", "Статус роботи"]
+];
+
+function reportBuilderHtml() {
+  const objectChecks = objects.map(object => `<label class="check-line"><input class="report-object" type="checkbox" value="${object.code}" ${object.group === "report" ? "checked" : ""}> ${object.name}</label>`).join("");
+  const sectionChecks = reportSectionList.map(([key, label]) => `<label class="check-line"><input class="report-section" type="checkbox" value="${key}" checked> ${label}</label>`).join("");
+  return `<section class="report-builder card"><div><span class="eyebrow">ЗВІТНІСТЬ</span><h3>Сформувати звіт</h3><p>Позначте об’єкти і розділи, які мають потрапити в попередній перегляд.</p></div><div class="check-block"><div class="check-head"><b>Об’єкти</b><button type="button" class="btn ghost" onclick="setReportObjects(true)">Усі</button><button type="button" class="btn ghost" onclick="setReportObjects(false)">Зняти</button><button type="button" class="btn ghost" onclick="setReportObjects('report')">Тест 1–7</button></div><div class="check-grid">${objectChecks}</div></div><div class="check-block"><div class="check-head"><b>Що включити</b><button type="button" class="btn ghost" onclick="setReportSections(true)">Усі розділи</button><button type="button" class="btn ghost" onclick="setReportSections(false)">Зняти</button></div><div class="check-grid">${sectionChecks}</div></div><div class="report-actions"><button class="btn" onclick="openConfiguredReport()">${icon("eye")} Переглянути</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} PDF-звіт</button></div></section>`;
+}
+
+function setReportObjects(mode) {
+  document.querySelectorAll(".report-object").forEach(input => {
+    const object = objects.find(item => item.code === input.value);
+    input.checked = mode === "report" ? object?.group === "report" : Boolean(mode);
+  });
+}
+
+function setReportSections(on) {
+  document.querySelectorAll(".report-section").forEach(input => { input.checked = on; });
+}
+
+function selectedReport() {
+  return {
+    codes: [...document.querySelectorAll(".report-object:checked")].map(input => input.value),
+    sections: new Set([...document.querySelectorAll(".report-section:checked")].map(input => input.value))
+  };
+}
+
+function openConfiguredReport() {
+  const selection = selectedReport();
+  if (!selection.codes.length) return toast("Оберіть хоча б один об’єкт");
+  if (!selection.sections.size) return toast("Оберіть хоча б один розділ звіту");
+  openReport(selection);
+}
+
+function setStatsObjects(mode) {
+  document.querySelectorAll(".stats-object").forEach(input => {
+    const object = objects.find(item => item.code === input.value);
+    input.checked = mode === "report" ? object?.group === "report" : Boolean(mode);
+  });
+  updateStatsObjectLabel();
+}
+
+function updateStatsObjectLabel() {
+  const label = document.querySelector("#stats-object-label");
+  const selected = [...document.querySelectorAll(".stats-object:checked")];
+  if (!label) return;
+  const reportCodes = objects.filter(object => object.group === "report").map(object => object.code);
+  const selectedCodes = selected.map(input => input.value);
+  if (!selected.length) label.textContent = "Нічого не обрано";
+  else if (selected.length === objects.length) label.textContent = "Усі об’єкти";
+  else if (selectedCodes.length === reportCodes.length && reportCodes.every(code => selectedCodes.includes(code))) label.textContent = "Тест 1–7";
+  else if (selected.length <= 2) label.textContent = selectedCodes.map(objectName).join(", ");
+  else label.textContent = `Обрано ${selected.length}`;
+}
+
+function applyStatsFilter() {
+  const codes = [...document.querySelectorAll(".stats-object:checked")].map(input => input.value);
+  if (!codes.length) return toast("Оберіть хоча б один об’єкт");
+  document.querySelectorAll(".report-object").forEach(input => { input.checked = codes.includes(input.value); });
+  openConfiguredReport();
+}
+
+function carColor(event) {
+  return (event.desc || "").split("·")[0].trim() || "Не вказано";
+}
+
+function peopleTotal(list) {
+  return list.filter(event => event.type === "people").reduce((sum, event) => {
+    const count = parseInt(event.title, 10);
+    return sum + (Number.isFinite(count) ? count : 1);
+  }, 0);
+}
+
 function openReport(subject) {
-  const source = eventsFor(subject);
+  const allSections = new Set(reportSectionList.map(item => item[0]));
+  let codes;
+  let sections = allSections;
+  let heading;
+  let source;
+  if (subject && typeof subject === "object" && subject.codes) {
+    codes = subject.codes;
+    sections = subject.sections;
+    heading = codes.map(objectName).join(", ");
+    source = events.filter(event => codes.includes(event.object));
+  } else if (!subject || subject === "report") {
+    codes = objects.filter(object => object.group === "report").map(object => object.code);
+    heading = "Тест 1–Тест 7";
+    source = events.filter(event => codes.includes(event.object));
+  } else if (subject === "all") {
+    codes = objects.map(object => object.code);
+    heading = "Усі об’єкти";
+    source = events.filter(event => codes.includes(event.object));
+  } else if (objects.some(object => object.code === subject)) {
+    codes = [subject];
+    heading = objectName(subject);
+    source = events.filter(event => event.object === subject);
+  } else {
+    source = events.filter(event => event.title === subject);
+    codes = [...new Set(source.map(event => event.object))];
+    heading = subject;
+  }
+  const visibleObjects = objects.filter(object => codes.includes(object.code));
   refreshVehicleAnalytics(source);
-  const visibleObjects = !subject || subject === "report"
-    ? objects.filter(object => object.group === "report")
-    : subject === "all"
-      ? objects
-      : objects.some(object => object.code === subject)
-        ? objects.filter(object => object.code === subject)
-        : objects.filter(object => source.some(event => event.object === object.code));
-  const heading = !subject || subject === "report" ? "Об’єкти звіту" : subject === "all" ? "Усі об’єкти" : objectName(subject);
-  const photos = [...new Set([
-    ...visibleObjects.map(object => object.photo).filter(Boolean),
-    ...source.filter(event => event.type !== "note").flatMap(event => (event.gallery || [event.image]).filter(Boolean))
-  ])];
+  const show = key => sections.has(key);
+  const cars = source.filter(event => event.type === "car");
+  const people = source.filter(event => event.type === "people");
+  const notes = source.filter(event => event.type === "note");
+  const repeats = vehicleAnalytics.filter(item => item.visits > 1 || item.objectCount > 1);
+  const colorGroups = new Map();
+  cars.forEach(event => {
+    const color = carColor(event);
+    const key = `${event.title}|${color}`;
+    const row = colorGroups.get(key) || { title: event.title, color, visits: 0, objects: new Set() };
+    row.visits += 1;
+    row.objects.add(objectName(event.object));
+    colorGroups.set(key, row);
+  });
+  const colorRepeats = [...colorGroups.values()].filter(row => row.visits > 1 || row.objects.size > 1);
+  const blocks = [];
+  if (show("summary")) blocks.push(`<div class="report-summary"><div><small>Подій</small><b>${source.length}</b></div><div><small>Авто</small><b>${cars.length}</b></div><div><small>Люди</small><b>${people.length}</b></div><div><small>Нотатки</small><b>${notes.length}</b></div></div>`);
+  if (show("conclusion")) blocks.push(`<h4>Висновок</h4><p>${reportCase.intro}</p>`);
+  if (show("criteria")) blocks.push(`<h4>Критерії</h4><p>${reportCase.criteria.join(" · ")}</p>`);
+  if (show("objects")) blocks.push(visibleObjects.map(object => {
+    const related = source.filter(event => event.object === object.code && event.type !== "note");
+    return `<h4>${object.name}</h4><p><b>${object.address}</b><br>${object.description}</p><p>${related.map(event => `${event.date} ${event.time} · ${eventMeta(event.type).card} · ${event.title}`).join("<br>") || "Подій цього типу немає."}</p>`;
+  }).join(""));
+  if (show("notes")) blocks.push(`<h4>Нотатки агентів</h4>${notes.map(event => `<p><b>${objectName(event.object)} · ${event.title}</b><br>${event.note}</p>`).join("") || "<p>Нотаток за обраними об’єктами немає.</p>"}`);
+  if (show("photos")) blocks.push(visibleObjects.map(object => {
+    const related = source.filter(event => event.object === object.code);
+    const images = [...new Set([object.photo, ...related.filter(event => event.type !== "note").flatMap(event => (event.gallery || [event.image]).filter(Boolean))].filter(Boolean))].slice(0, 4);
+    return `<h4>Фото · ${object.name}</h4>${images.length ? `<div class="report-photos">${images.map(src => `<img src="${src}" alt="${evidenceLabel(src)}">`).join("")}</div>` : `<div class="no-photo-inline">${icon("image-off", 18)} Немає фото</div>`}`;
+  }).join(""));
+  if (show("people")) blocks.push(`<h4>Кількість людей</h4><p>Груп: ${people.length}. Разом осіб за картками: ${peopleTotal(people)}.</p><table><thead><tr><th>Об’єкт</th><th>Група</th><th>Опис</th><th>Час</th></tr></thead><tbody>${people.map(event => `<tr><td>${objectName(event.object)}</td><td>${event.title}</td><td>${event.desc}</td><td>${event.date} ${event.time}</td></tr>`).join("") || `<tr><td colspan="4">Немає</td></tr>`}</tbody></table>`);
+  if (show("repeats")) blocks.push(`<h4>Повторні номери авто</h4>${repeats.length ? `<table><thead><tr><th>Номер або тип</th><th>Появи</th><th>Об’єкти</th><th>Час</th></tr></thead><tbody>${repeats.map(item => `<tr><td>${item.plate}</td><td>${item.visits}</td><td>${item.objects}</td><td>${item.duration}</td></tr>`).join("")}</tbody></table>` : "<p>Повторних номерів за обраними об’єктами немає.</p>"}`);
+  if (show("colorMake")) blocks.push(`<h4>Повторні колір і марка</h4>${colorRepeats.length ? `<table><thead><tr><th>Марка / тип</th><th>Колір</th><th>Появи</th><th>Об’єкти</th></tr></thead><tbody>${colorRepeats.map(row => `<tr><td>${row.title}</td><td>${row.color}</td><td>${row.visits}</td><td>${[...row.objects].join(", ")}</td></tr>`).join("")}</tbody></table>` : "<p>Повторів кольору та марки за обраними об’єктами немає.</p>"}`);
+  if (show("duration")) blocks.push(`<h4>Час на об’єкті</h4><table><thead><tr><th>Авто</th><th>Об’єкт</th><th>Заїзд</th><th>Виїзд</th></tr></thead><tbody>${cars.map(event => `<tr><td>${event.title}</td><td>${objectName(event.object)}</td><td>${event.arrival || event.time}</td><td>${event.departure || "—"}</td></tr>`).join("") || `<tr><td colspan="4">Немає</td></tr>`}</tbody></table>`);
+  if (show("agents")) blocks.push(`<h4>Агенти</h4><p>${[...new Set(source.map(event => event.agent))].map(name => `${name}: ${source.filter(event => event.agent === name).length} подій`).join(" · ") || "Немає"}</p>`);
+  if (show("plates")) blocks.push(`<h4>Перевірка номерів</h4><p>Співпадає: ${cars.filter(event => event.plateMatch === "match").length}. Не співпадає: ${cars.filter(event => event.plateMatch === "mismatch").length}. Очікує: ${cars.filter(event => event.plateMatch !== "match" && event.plateMatch !== "mismatch").length}.</p><table><thead><tr><th>Авто</th><th>Об’єкт</th><th>Стан</th><th>Примітка</th></tr></thead><tbody>${cars.map(event => `<tr><td>${event.title}</td><td>${objectName(event.object)}</td><td>${plateLabel(event.plateMatch)}</td><td>${event.plateReason || "—"}</td></tr>`).join("") || `<tr><td colspan="4">Немає</td></tr>`}</tbody></table>`);
+  if (show("closing")) blocks.push(`<h4>Статус роботи</h4><p>${reportCase.closing.join(" ")}</p>`);
   showModal(`<div class="modal-head"><h3>ДОПОВІДНА · ПОПЕРЕДНІЙ ПЕРЕГЛЯД</h3><button class="icon-btn" onclick="closeModal()">${icon("x")}</button></div><div class="modal-body report-preview">
     <div class="report-logo"><img src="./assets/ors-logo.jpg" alt="ORS"><span>СИСТЕМА СПОСТЕРЕЖЕННЯ ТА РЕКОГНОСТУВАННЯ</span></div>
     <div class="report-title"><div><small>ДОПОВІДНА № ${reportCase.number}</small><h2>${heading}</h2></div><div><small>ПЕРІОД</small><b>${reportCase.label}</b></div></div>
-    <div class="report-summary"><div><small>Подій</small><b>${source.length}</b></div><div><small>Авто</small><b>${source.filter(event => event.type === "car").length}</b></div><div><small>Люди</small><b>${source.filter(event => event.type === "people").length}</b></div><div><small>Нотатки</small><b>${source.filter(event => event.type === "note").length}</b></div></div>
-    <h4>Висновок</h4><p>${reportCase.intro}</p>
-    <h4>Критерії</h4><p>${reportCase.criteria.join(" · ")}</p>
-    ${visibleObjects.map(object => {
-      const related = source.filter(event => event.object === object.code);
-      const images = [...new Set([
-        object.photo,
-        ...related.filter(event => event.type !== "note").flatMap(event => (event.gallery || [event.image]).filter(Boolean))
-      ].filter(Boolean))].slice(0, 4);
-      return `<h4>${object.name}</h4><p><b>${object.address}</b><br>${object.description}</p><p>${related.filter(event => event.type === "note").map(event => event.note).join(" ")}</p>${images.length ? `<div class="report-photos">${images.map(src => `<img src="${src}" alt="${evidenceLabel(src)}">`).join("")}</div>` : `<div class="no-photo-inline">${icon("image-off", 18)} Немає фото</div>`}<p>${related.filter(event => event.type !== "note").map(event => `${event.date} ${event.time} · ${eventMeta(event.type).card} · ${event.title}`).join("<br>")}</p>`;
-    }).join("")}
-    <h4>Повторні авто</h4><table><thead><tr><th>Тип</th><th>Появи</th><th>Об’єкти</th><th>Час</th></tr></thead><tbody>${vehicleAnalytics.filter(item => item.objectCount > 1).map(item => `<tr><td>${item.plate}</td><td>${item.visits}</td><td>${item.objects}</td><td>${item.duration}</td></tr>`).join("")}</tbody></table>
-    ${photos.length ? `<h4>Матеріали звіту</h4><div class="report-photos">${photos.slice(0, 8).map(src => `<img src="${src}" alt="">`).join("")}</div>` : ""}
-    <h4>Статус роботи</h4><p>${reportCase.closing.join(" ")}</p>
+    ${blocks.join("")}
     <div class="report-footer">ORS · сформовано з подій прототипу · 31.10.2026 о 18:40</div>
   </div><div class="modal-foot"><button class="btn" onclick="closeModal()">Закрити</button><button class="btn primary" onclick="mockPdf()">${icon("file-down")} Сформувати PDF</button></div>`, "wide");
 }
