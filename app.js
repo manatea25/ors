@@ -23,9 +23,8 @@ const PHOTOS = {
   t2Person: "./assets/case/t2-person.jpeg",
   t3Street: "./assets/case/t3-street.jpg",
   t4Building: "./assets/case/t4-building.jpg",
-  mapOverview: "./assets/case/map-overview.jpg",
-  mapT2: "./assets/case/map-t2.jpg",
   mapT56: "./assets/case/map-t56.jpg",
+  t6Sector: "./assets/case/t6-sector.jpg",
   pickupPeugeot: "./assets/stock/peugeot.jpg",
   pickupToyota: "./assets/stock/military-hilux.jpg",
   pickupSsang: "./assets/stock/ssangyong.jpg",
@@ -71,7 +70,7 @@ const objects = [
   { code: "T3", group: "report", name: "Тест 3", address: "Les Corts · паркувальний сектор", coords: [41.3891, 2.1368], status: "Активний", photo: PHOTOS.t3Street, description: "Місце паркування цивільних автомобілів на європейських номерах. За час спостереження з автомобілів виходили по 3–4 особи та рухалися до Тест 1 або Тест 2. Зранку збирається близько 5–8 автомобілів, які відповідають опису." },
   { code: "T4", group: "report", name: "Тест 4", address: "Sant Antoni · між житловими будинками", coords: [41.3775, 2.1595], status: "Активний", photo: PHOTOS.t4Building, description: "Нежитлова будівля між житловими будинками. З неї виходять особи в штанах мультикам, худі військової тематики та тактичному одязі; візуально розпізнається зброя під одягом. Навпроти паркуються автомобілі на єврономерах." },
   { code: "T5", group: "report", name: "Тест 5", address: "El Born · північний край району", coords: [41.3852, 2.1885], status: "Активний", photo: PHOTOS.mapT56, description: "Майже щодня збираються автомобілі на військових і європейських номерах. Присутні особи в цивільному, тактичному та військовому одязі." },
-  { code: "T6", group: "report", name: "Тест 6", address: "Horta · північний сектор", coords: [41.4252, 2.1642], status: "Активний", photo: PHOTOS.mapT56, description: "Пов’язана з Тест 5 зона щоденного скупчення. Автомобілі на військових і єврономерах, особи в цивільному, тактичному та військовому одязі." },
+  { code: "T6", group: "report", name: "Тест 6", address: "Horta · північний сектор", coords: [41.4252, 2.1642], status: "Активний", photo: PHOTOS.t6Sector, description: "Пов’язана з Тест 5 зона щоденного скупчення. Автомобілі на військових і єврономерах, особи в цивільному, тактичному та військовому одязі." },
   { code: "T7", group: "report", name: "Тест 7", address: "El Guinardó · сектор спостереження", coords: [41.4148, 2.1855], status: "Дані уточнюються", photo: "", description: "У доповідній зазначено сім місць скупчення, однак окремий опис і фотоматеріали сьомого місця відсутні." }
 ];
 
